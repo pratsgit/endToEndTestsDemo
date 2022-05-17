@@ -1,4 +1,4 @@
-A demo app that providing a framework to do end-to-end testing in a microservice environment that kafka for event management
+A demo app that providing a framework to do end-to-end testing in a microservice environment that uses kafka for event management
 
 ## Structure:
 ---
