@@ -1,0 +1,18 @@
+spring:
+  config:
+    activate:
+      on-profile: default
+  cloud:
+    function:
+      definition: receive
+    stream:
+      defaultBinder: kafka
+      bindings:
+        receive-in-0:
+          destination: topic2
+          group: serviceB_grp
+          consumer:
+            partitioned: true
+      kafka:
+        binder:
+          replication-factor: 1

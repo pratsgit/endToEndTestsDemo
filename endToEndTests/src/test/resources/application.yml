@@ -1,0 +1,72 @@
+spring:
+  config:
+    activate:
+      on-profile: default
+  kafka:
+    consumer:
+      auto-offset-reset: earliest
+      group-id: e2econsumer
+      properties:
+        max.poll.interval.ms: 8000000
+        reconnect.backoff.ms: 1000
+        reconnect.backoff.max.ms: 10_000
+    producer:
+      properties:
+        reconnect.backoff.ms: 1000
+        reconnect.backoff.max.ms: 10_000
+test:
+  topic: topic3
+---
+spring:
+  config:
+    activate:
+      on-profile: serviceAProfile
+  cloud:
+    function:
+      definition: receive
+    stream:
+      defaultBinder: kafka
+      bindings:
+        receive-in-0:
+          destination: topic1
+          group: service_A
+          consumer:
+            partitioned: true
+        results-out-0:
+          destination: topic2
+      kafka:
+        binder:
+          consumer-properties:
+            max.poll.interval.ms: 8000000
+            reconnect.backoff.ms: 1000
+            reconnect.backoff.max.ms: 10_000
+          producer-properties:
+            reconnect.backoff.ms: 1000
+            reconnect.backoff.max.ms: 10_000
+server:
+  port: -1
+---
+spring:
+  config:
+    activate:
+      on-profile: serviceBProfile
+  cloud:
+    function:
+      definition: receive
+    stream:
+      defaultBinder: kafka
+      bindings:
+        receive-in-0:
+          destination: topic2
+          group: service_B
+      kafka:
+        binder:
+          consumer-properties:
+            max.poll.interval.ms: 8000000
+            reconnect.backoff.ms: 1000
+            reconnect.backoff.max.ms: 10_000
+          producer-properties:
+            reconnect.backoff.ms: 1000
+            reconnect.backoff.max.ms: 10_000
+server:
+  port: -1
