@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.*;
         topics = { "topic1", "topic2" })
 @DirtiesContext
 @TestPropertySource(properties = "test.topic=topic2")
-public class EndToEndTestsIT {
+public class ListeningTopic2IT {
     private static ConfigurableApplicationContext serviceAContext = null;
     private static ConfigurableApplicationContext serviceBContext = null;
 
@@ -72,7 +72,7 @@ public class EndToEndTestsIT {
         String payload = "{\"message\" : \"message on topic 1\"}";
         this.producer.send("topic1", payload);
 
-        consumer.getLatch().await(5, TimeUnit.MINUTES);
+        consumer.getLatch().await(1, TimeUnit.MINUTES);
         assertThat(consumer.getLatch().getCount(), equalTo(0L));
 
         byte[] recordBytes = consumer.getRecordValue();
